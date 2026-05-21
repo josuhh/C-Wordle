@@ -1,3 +1,5 @@
+🇬🇧 **English** | 🇧🇷 [Português Brasileiro](./README_pt-br.md)
+
 # Term.ooo
  A terminal-based Wordle-like game written in C.
  
