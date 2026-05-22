@@ -34,10 +34,17 @@ int main() {
     printf("Welcome to C-Wordle!\n");
     for (int attempt = 0; attempt < 6; attempt++) {
         printf("Attempt: %d\n", attempt + 1);
-        scanf("%5s", input);
-        while (strlen(input) != 5) {
-            printf("Word must be 5 letters. Try again: \n");
-            scanf("%5s", input);
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0';
+        while (strlen(input) != 5 || strchr(input, ' ') != NULL) {
+            if (strchr(input, ' ') != NULL) {
+                printf("Word must not contain spaces. Try again: \n");
+            }
+            else {
+                printf("Word must be 5 letters. Try again: \n");
+            }
+            fgets(input, sizeof(input), stdin);
+            input[strcspn(input, "\n")] = '\0';
         }
         
         for (int i = 0; i < 5; i++) input[i] = tolower(input[i]);
