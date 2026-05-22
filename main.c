@@ -4,55 +4,59 @@
 #include <ctype.h>
 #include <time.h>
  
-#define MAX_PALAVRAS 5481
-#define TAM_MAX 6
+#define MAX_WORDS 5481
+#define MAX_LENGTH 6
  
 int main() {
     FILE *wordBase;
     
     wordBase = fopen("wordBase.txt", "r");
     if (wordBase == NULL) {
-        printf("Erro: Arquivo wordBase.txt nao encontrado!\n");
+        printf("Error: wordBase.txt not found!\n");
         return 1;
     }
 
-    char palavras_secretas[MAX_PALAVRAS][TAM_MAX];
+    char secret_words[MAX_WORDS][MAX_LENGTH];
     int count = 0;
     
     char secret[6];
     char input[6];
     
-    while (fscanf(wordBase, "%s", palavras_secretas[count]) != EOF) {
+    while (fscanf(wordBase, "%s", secret_words[count]) != EOF) {
         count++;
     }
     fclose(wordBase);
     
     srand(time(NULL));
-    int indice_sorteado = rand() % count;
-    strcpy(secret, palavras_secretas[indice_sorteado]);
+    int random_index = rand() % count;
+    strcpy(secret, secret_words[random_index]);
     
-    printf("Bem-vindo ao Term.ooo em C!\n");
-    for (int tentativa = 0; tentativa < 6; tentativa++) {
-        printf("Tentativa: %d\n", tentativa + 1);
+    printf("Welcome to C-Wordle!\n");
+    for (int attempt = 0; attempt < 6; attempt++) {
+        printf("Attempt: %d\n", attempt + 1);
         scanf("%5s", input);
+        while (strlen(input) != 5) {
+            printf("Word must be 5 letters. Try again: \n");
+            scanf("%5s", input);
+        }
         
         for (int i = 0; i < 5; i++) input[i] = tolower(input[i]);
 
         int status[5] = {0};
-        int secret_usada[5] = {0};
+        int secret_used[5] = {0};
 
         for (int i = 0; i < 5; i++) {
             if (input[i]==secret[i]) {
                 status[i] = 1;
-                secret_usada[i] = 1;
+                secret_used[i] = 1;
             }
         }
         for (int i = 0; i < 5; i++) {
             if (status[i] == 0) {
                 for (int c = 0; c < 5; c++) {
-                    if (secret_usada[c] == 0 &&  input[i] == secret[c]) {
+                    if (secret_used[c] == 0 &&  input[i] == secret[c]) {
                         status[i] = 2;
-                        secret_usada[c] = 1;
+                        secret_used[c] = 1;
                         break;
                     }
                 }
@@ -64,10 +68,10 @@ int main() {
         printf("\n");
  
         if (strcmp(input, secret) == 0) {
-            printf("Voce acertou em %d tentativas!\n", tentativa + 1);
+            printf("You got it right on your %dth attempt!\n", attempt + 1);
             return 0; 
         }
     }
-    printf("Suas tentativas acabaram! A palavra era: %s\n", secret);
+    printf("You have no more attempts! The word was: %s\n", secret);
     return 0;
 }
