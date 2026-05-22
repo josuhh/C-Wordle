@@ -1,7 +1,7 @@
 🇬🇧 **English** | 🇧🇷 [Português Brasileiro](./README_pt-BR.md)
 
-# Term.ooo
- A terminal-based Wordle-like game written in C.
+# C-Wordle
+ A terminal-based wordle written in C.
  
 ## Requirements 
 - GCC
@@ -19,7 +19,6 @@ gcc main.c -o term
 ```
  
 ## How to Play
-
 - You have 6 attempts to guess the secret word
 - Each guess must be a valid 5-letter word
 - After each guess, the numbers will indicate how close you are:
